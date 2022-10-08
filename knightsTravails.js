@@ -55,17 +55,19 @@ const minPath = (startBox,endBox) => {
  
     const possiblePaths = []; 
 
-    const minPathRec = (startRow,startCol,endRow,endCol,path,depth) => {
-        if (depth>5){return} //rivedere
+    const minPathRec = (startRow,startCol,endRow,endCol,path,depth,justFoundDepths) => {
+        let minFoundDepth = Math.min(...justFoundDepths);
+        if (depth>63 || depth>justFoundDepths){return} //rivedere
         const startBox = knigthMoves[startRow+","+startCol];
         startBox.forEach(move =>{
             const newPath = path.map(box => box); 
             newPath.push(move);
             if(move[0]==endRow && move[1]==endCol){
                 possiblePaths.push(newPath);
+                justFoundDepths.push(depth);
                 return;
             }
-            minPathRec(move[0],move[1],endRow,endCol,newPath,depth+1);
+            minPathRec(move[0],move[1],endRow,endCol,newPath,depth+1,justFoundDepths);
         });
     }
 

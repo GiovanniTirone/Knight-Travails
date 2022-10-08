@@ -36,8 +36,10 @@ const minPath = (startBox,endBox) => {
     const possiblePaths = []; 
 
     const minPathRec = (startRow,startCol,endRow,endCol,path,depth,justFoundDepths) => {
+        
         let minFoundDepth = Math.min(...justFoundDepths);
         if (depth>63 || depth>minFoundDepth){return} 
+
         const startBox = knigthMoves[startRow+","+startCol];
         startBox.forEach(move =>{
             const newPath = path.map(box => box); 

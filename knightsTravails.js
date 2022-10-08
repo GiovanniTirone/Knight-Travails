@@ -28,13 +28,14 @@ for(let a=0; a<8; a++){
     }
 }
 
-
+/*
 for(let a=0; a<8; a++){ 
     for(let b=0; b<8; b++){
         console.log("Possible moves for the box (" + a + "," + b +") : ");
         knigthMoves[a+","+b].forEach(move => console.log(move));
     }
 }
+*/
 //MAX DEPTH = 63
 
 const start = {
@@ -55,7 +56,7 @@ const minPath = (startBox,endBox) => {
     const possiblePaths = []; 
 
     const minPathRec = (startRow,startCol,endRow,endCol,path,depth) => {
-        if (depth>63){return} //rivedere
+        if (depth>5){return} //rivedere
         const startBox = knigthMoves[startRow+","+startCol];
         startBox.forEach(move =>{
             const newPath = path.map(box => box); 
@@ -70,11 +71,23 @@ const minPath = (startBox,endBox) => {
 
     minPathRec(startBox[0],startBox[1],endBox[0],endBox[1],[[startBox[0],startBox[1]]],0);
 
-    const possiblePathsLengths = possiblePaths.map(path => { return {"path": path, "pathLength": path.length} });
-    mergeSort(possiblePathsLengths); 
-    return possiblePathsLengths[0]["path"];
+    //const possiblePathsLengths = possiblePaths.map(path => { return {"path": path, "pathLength": path.length} });
+    //possiblePathsLengthsNoDuplicates =  removeDuplicates(possiblePathsLengths);
+    //mergeSort(possiblePathsLengthsNoDuplicates); 
+    //return possiblePathsLengthsNoDuplicates[0]["path"];
+    possiblePathsLengths.sort((a,b)=> a.pathLength - b.pathLength);
+    return possiblePathsLengths[0].path; 
 }
 
+function removeDuplicates(arr) {
+    var unique = [];
+    arr.forEach(element => {
+        if (!unique.includes(element.pathLength)) {
+            unique.push(element);
+        }
+    });
+    return unique;
+}
 
 function mergeSort (arr) {
     const l = arr.length;
@@ -99,3 +112,7 @@ function merge (ar1,ar2) {
         return [ar2.shift()].concat(merge(ar1,ar2));
     }
 }
+
+
+console.log("Min Path: " , minPath([0,0],[1,2]));
+console.log("Min Path: " , minPath([0,0],[5,2]));

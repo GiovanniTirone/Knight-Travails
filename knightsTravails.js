@@ -46,24 +46,56 @@ const box = {
     box : [],
     nextMoves : [],
 }
-/*
-const index = (box) => {
-    let j = box.indexOf();
-    let i = knigthMoves[]
-    return [box.indexOf().in, indexOf();
+
+
+//insert the box in array form
+
+const minPath = (startBox,endBox) => {
+ 
+    const possiblePaths = []; 
+
+    const minPathRec = (startRow,startCol,endRow,endCol,path,depth) => {
+        if (depth>63){return} //rivedere
+        const startBox = knigthMoves[startRow+","+startCol];
+        startBox.forEach(move =>{
+            const newPath = path.map(box => box); 
+            newPath.push(move);
+            if(move[0]==endRow && move[1]==endCol){
+                possiblePaths.push(newPath);
+                return;
+            }
+            minPathRec(move[0],move[1],endRow,endCol,newPath,depth+1);
+        });
+    }
+
+    minPathRec(startBox[0],startBox[1],endBox[0],endBox[1],[[startBox[0],startBox[1]]],0);
+
+    const possiblePathsLengths = possiblePaths.map(path => { return {"path": path, "pathLength": path.length} });
+    mergeSort(possiblePathsLengths); 
+    return possiblePathsLengths[0]["path"];
 }
 
 
-const minPath = (start, end, box, depth) => {
-    if (depth>63){return} 
-    start.forEach(move =>{
-        possiblePaths.push({move}); 
-        if(move == end){return}
-        minPath(move, end, box.nextMoves.,depth+1);
-    });
-    start.forEach(move => {
+function mergeSort (arr) {
+    const l = arr.length;
+    const m = Math.floor(l/2);
+
+    if(l==2){return merge(arr.slice(0,1),arr.slice(1))}
+    else if(l==3){return merge(mergeSort(arr.slice(0,2)),arr.slice(2))}
+    else{return merge(mergeSort(arr.slice(0,m)),mergeSort(arr.slice(m)))}
+}
+
+
+function merge (ar1,ar2) {
+    const l1 = ar1.length;
+    const l2 = ar2.length; 
+    if(l1==0){return ar2}
+    if(l2==0){return ar1}
         
-        minPath(move, end, ,depth+1);
-    });
+    if(ar1[0]["pathLength"]<ar2[0]["pathLength"]){
+        return [ar1.shift()].concat(merge(ar1,ar2));
+    }
+    else{
+        return [ar2.shift()].concat(merge(ar1,ar2));
+    }
 }
-*/
